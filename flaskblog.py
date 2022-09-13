@@ -13,6 +13,14 @@ main_post = [
         'content': '''Flask is a micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries.It has no database abstraction layer, form validation, or any other components where pre-existing third-party libraries provide common functions. However, Flask supports extensions that can add application features as if they were implemented in Flask itself. Extensions exist for object-relational mappers, form validation, upload handling, various open authentication technologies and several common framework related tools.'''
     },
 ]
+@app.context_processor
+def layout():
+    url = {
+        'github': 'https://github.com/SoniaCore',
+        'telegram': 'https://telegram.me/ReiLibre',
+
+    }
+    return dict(url=url)
 
 @app.route('/')
 @app.route('/home')
@@ -35,6 +43,10 @@ def register():
 def login():
     form = LoginForm()
     return render_template('login.html',title='Login', form = form)
+
+#    def requestCustomerDataFromTestForm():
+#        data={'id':1, 'name':'Josh'}
+#        return render_template("index.html", data = data)
 
 if __name__ == '__main__':
     app.run(debug=True , port=8080)
