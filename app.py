@@ -1,10 +1,23 @@
 import email
 from flask import Flask , render_template , url_for, flash , redirect
 from forms import RegistrationForm , LoginForm
-from config import APIKEY
+from flask_sqlalchemy import SQLAlchemy
+from config import APIKEY , SQLDB
 
+# App Name
 app = Flask(__name__)
+
+# App Config
 app.config['SECRET_KEY'] = APIKEY
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLDB
+
+# App Database
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    username = db.Column(db.String(120), unique=True, nullable=False)
 
 posts = [
     {
