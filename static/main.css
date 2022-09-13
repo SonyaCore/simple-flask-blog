@@ -9,7 +9,7 @@ body {
   }
   
   .bg-steel {
-    background-color: #29246a;
+    background-color: #29265f;
   }
   
   .site-header .navbar-nav .nav-link {
@@ -79,7 +79,10 @@ body {
     font-size: 2.5rem;
   }
 
-  /* Place the navbar at the bottom of the page, and make it stick */
+ .navbar-auth{
+  width: 100%;
+ }
+ 
  .navbar-down {
   background-color: #333;
   overflow: hidden;
@@ -127,7 +130,7 @@ body {
   border-radius: 50%;
 }
 
-/* hover effect if you want */
+/* hover effect */
 .fa:hover {
   opacity: 0.7;
 }
