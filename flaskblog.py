@@ -44,9 +44,5 @@ def login():
     form = LoginForm()
     return render_template('login.html',title='Login', form = form)
 
-#    def requestCustomerDataFromTestForm():
-#        data={'id':1, 'name':'Josh'}
-#        return render_template("index.html", data = data)
-
 if __name__ == '__main__':
     app.run(debug=True , port=8080)
