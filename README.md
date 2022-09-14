@@ -76,7 +76,8 @@ http://127.0.0.1:8080/
 
 <h3> Todo List </h3>
 
-- [ ] Add Database to Application
+- [x] Better Structure of Application
+- [x] Add Database to Application
 - [ ] Add A Way To Create,Update,Delete Posts with Privileged User 
 - [ ] User Account , Profile Picture
 - [ ] User Authentication
