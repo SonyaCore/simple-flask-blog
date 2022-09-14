@@ -58,7 +58,7 @@ Enter this command in the terminal to run the project :
 </p>
 <div dir="ltr">
 <pre>
-python3 app.py
+python3 run.py
 </pre>
 </div>
 
