@@ -15,7 +15,7 @@ Open a Terminal in Project Directory and use Below line to Create VENV:
 </p>
 <div dir="ltr">
 <pre>
-python -m venv venv
+python3 -m venv venv
 </pre>
 </div>
 <p>
