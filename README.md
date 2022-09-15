@@ -80,7 +80,7 @@ http://127.0.0.1:8080/
 - [x] Add Database to Application
 - [ ] Add A Way To Create,Update,Delete Posts with Privileged User 
 - [ ] User Account , Profile Picture
-- [ ] User Authentication
+- [x] User Authentication (brcypt method used)
 - [ ] Blueprints
 - [ ] Custom Error Pages
 - [ ] Dockerfile
