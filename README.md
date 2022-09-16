@@ -79,7 +79,7 @@ http://127.0.0.1:8080/
 - [x] Better Structure of Application
 - [x] Add Database to Application
 - [ ] Add A Way To Create,Update,Delete Posts with Privileged User 
-- [ ] User Account , Profile Picture
+- [x] User Account , Profile Picture
 - [x] User Authentication (brcypt method used)
 - [ ] Blueprints
 - [ ] Custom Error Pages
