@@ -1,22 +1,12 @@
-from flask import render_template , url_for, flash , redirect , request
+from flask import render_template , url_for, flash , redirect , request , abort
 from app import app , db , bcrypt
-from app.forms import RegistrationForm , LoginForm , UpdateAccountForm
+from app.forms import RegistrationForm , LoginForm , UpdateAccountForm , PostForm
 from app.models import User,Post
-from flask_login import login_user , current_user , logout_user , login_required
+from flask_login import login_user , current_user , logout_user , login_required 
 from PIL import Image
 
 import secrets
 import os
-
-
-posts = [
-    {
-        'author': 'sonya',
-        'date_posted': '2022-04-20',
-        'title': 'flask-api',
-        'content': '''Flask is a micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries.It has no database abstraction layer, form validation, or any other components where pre-existing third-party libraries provide common functions. However, Flask supports extensions that can add application features as if they were implemented in Flask itself. Extensions exist for object-relational mappers, form validation, upload handling, various open authentication technologies and several common framework related tools.'''
-    },
-]
 
 # Additional Navbar Information
 @app.context_processor
@@ -39,6 +29,7 @@ def name():
 @app.route('/')
 @app.route('/home')
 def home():
+    posts = Post.query.all()
     return render_template('home.html',
     posts=posts)
 
@@ -142,3 +133,58 @@ def account():
     title = 'My Profile',
     profile = imagefile ,
     form = form)
+
+@app.route('/post/new',methods=['GET','POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data,
+                            content=form.content.data,
+                            author = current_user)
+
+        db.session.add(post)
+        db.session.commit()
+        flash('Post has been created', category='success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html',
+                            title='New Post',
+                            form=form)
+
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html',
+                            title = post.title ,
+                            post = post , legend = 'New Post' )
+
+@app.route('/post/<int:post_id>/update',methods=['GET','POST'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('your post has been updated!', category='success')
+        return redirect(url_for('post',post_id = post.id))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('create_post.html',
+                            title='Update Post',
+                            form=form , legend = 'Update Post')
+
+@app.route('/post/<int:post_id>/delete',methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('your post has been deleted!', category='success')
+    return redirect(url_for('home'))
