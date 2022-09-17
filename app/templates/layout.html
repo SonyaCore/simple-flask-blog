@@ -49,14 +49,16 @@
       <!-- Navbar Bottom Side -->
     <header class="site-header">
       <nav class="navbar navbar-dark bg-dark fixed-bottom">
+        {% for navbar in nav %}
         <div class="navbar-down">
-         <a href="{{ url['github'] }}" class="fa fa-github"></a>
-         <a href="{{ url['telegram'] }}" class="fa fa-telegram"></a>
-         <a href="#" class="fa fa-instagram"></a>
-         <a href="#" class="fa fa-twitter"></a>
+         <a href="{{ navbar.github }}" class="fa fa-github"></a>
+         <a href="{{ navbar.telegram }}" class="fa fa-telegram"></a>
+         <a href="{{ navbar.instagram }}" class="fa fa-instagram"></a>
+         <a href="{{ navbar.twitter }}" class="fa fa-twitter"></a>
         </div>
-        <p class="navbar-info"> {{ url['info'] }}</p>
+        <p class="navbar-info"> {{ navbar.description }}</p>
        </nav>
+       {% endfor %}
       </header>
 
       <main role="main" class="container">

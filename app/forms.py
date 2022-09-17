@@ -5,6 +5,9 @@ from wtforms import StringField , PasswordField , SubmitField , BooleanField , T
 from wtforms.validators import DataRequired,Length , Email , EqualTo , ValidationError
 from app.models import User
 
+global allowed_user
+allowed_user = ['Sonya','admin']
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
                             validators=[DataRequired(),
@@ -51,6 +54,7 @@ class UpdateAccountForm(FlaskForm):
     picture = FileField('Update Porfile Picture',
                             validators=[FileAllowed(['jpg','png','jpeg'])])
 
+
     submit = SubmitField('Update')
 
     def validate_username(self,username):
@@ -64,6 +68,25 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('The email already exist!')
+
+class ServerInfo(FlaskForm):
+    github = StringField('GitHub',
+                            validators=[DataRequired(),
+                            Length(max=80)])
+    telegram = StringField('Telegram',
+                            validators=[DataRequired(),
+                            Length(max=80)])
+    instagram = StringField('Instagram',
+                            validators=[DataRequired(),
+                            Length(max=80)])
+    twitter = StringField('Twitter',
+                            validators=[DataRequired(),
+                            Length(max=80)])
+    description = StringField('Description',
+                            validators=[DataRequired(),
+                            Length(max=240)])
+    submit = SubmitField('Update Server Information')
+
 
 class PostForm(FlaskForm):
     title = StringField('Title',

@@ -6,6 +6,9 @@
       <div class="media-body">
         <h2 class="account-heading">{{ current_user.username }}</h2>
         <p class="text-secondary">{{ current_user.email }}</p>
+        {% if current_user.username in allowed_user %}
+            <p class="text-secondary text-info">Admin</p>
+        {% endif %}
       </div>
     </div>
     <form method="POST" action="" enctype="multipart/form-data">
@@ -51,9 +54,72 @@
             {% endif %}
         </div>
         </fieldset>
-        <br>
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+        {% if current_user.username in allowed_user %}
+        <fieldset class="form-group">
+        <legend class="border-primary mb-2">Server Information</legend>
+        <div class="form-group">
+            {{ updateinfo.github.label(class="form-control-label") }}
+
+            {% if updateinfo.github.errors %}
+                {{ updateinfo.github(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in updateinfo.github.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ updateinfo.github(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ updateinfo.telegram.label(class="form-control-label") }}
+            {% if updateinfo.telegram.errors %}
+                {{ updateinfo.telegram(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in updateinfo.telegram.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ updateinfo.telegram(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ updateinfo.instagram.label(class="form-control-label") }}
+
+            {% if updateinfo.instagram.errors %}
+                {{ updateinfo.instagram(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in updateinfo.instagram.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ updateinfo.instagram(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ updateinfo.description.label(class="form-control-label") }}
+            {% if updateinfo.description.errors %}
+                {{ updateinfo.description(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in updateinfo.description.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ updateinfo.description(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+        {% endif %}
+        <br>
+        <div class="form-group">
+            {{ updateinfo.submit(class="btn btn-outline-info") }}
         </div>
     </form>
     </div>

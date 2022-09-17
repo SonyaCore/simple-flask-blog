@@ -1,42 +1,51 @@
 from flask import render_template , url_for, flash , redirect , request , abort
 from app import app , db , bcrypt
 from app.forms import RegistrationForm , LoginForm , UpdateAccountForm , PostForm
-from app.models import User,Post
+from app.forms import ServerInfo , allowed_user
+from app.models import User,Post , ServerName , NavBar
 from flask_login import login_user , current_user , logout_user , login_required 
 from PIL import Image
 
 import secrets
 import os
 
-# Additional Navbar Information
-@app.context_processor
-def layout():
-    url = {
-        'github':      'https://github.com/SoniaCore',
-        'telegram':    'https://telegram.me/ReiLibre',
-        'info':        'Still in Development @SoniaCore',
-    }
-    return dict(url=url)
-
 # Blog Name
+def servername():
+    name = db.session.query(ServerName).all()
+    for query in name: 
+        return query.servername
+
+# Additional Navbar Information
+nav = db.session.query(NavBar).all()
+
+# Information
+# def information():
+#     global github
+#     for data in nav:
+#         tableinfo = [f'{data.github}',f'{data.telegram}',f'{data.instagram}',f'{data.twitter}',f'{data.description}']
+#         github = {data.github}
+#     return tableinfo , github
+
 @app.context_processor
 def name():
     info = {
-        'servername':   'Sonia Blog'
-    }
+         'servername':   f'{servername()}'
+     }
     return dict(info=info)
 
 @app.route('/')
 @app.route('/home')
 def home():
+    # Load Posts 
     page = request.args.get ('page',1,type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page = page , per_page = 5)
+
     return render_template('home.html',
-    posts=posts)
+    posts=posts , nav=nav)
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html',nav=nav)
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -61,7 +70,8 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html',
     title='Register',
-    form = form)
+    form = form,
+    nav=nav)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -79,7 +89,8 @@ def login():
             flash('Login Failed Check your information!', category='danger')
     return render_template('login.html',
     title='Login',
-    form = form)
+    form = form,
+    nav=nav)
 
 @app.route('/logout')
 def logout():
@@ -108,11 +119,12 @@ def save_picture(form_picture):
 
     return picture_fn
 
-
 @app.route('/account',methods=['GET','POST'])
 @login_required
 def account():
     form = UpdateAccountForm()
+    updateinfo = ServerInfo()
+    navchange = db.session.query(NavBar).first()
     if form.validate_on_submit():
         if form.picture.data:
             old_pic = current_user.image_file
@@ -129,11 +141,32 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
+
+    if current_user.username in allowed_user: # admin mode
+        if updateinfo.validate_on_submit():
+            navchange.github = updateinfo.github.data
+            navchange.telegram = updateinfo.telegram.data
+            navchange.instagram = updateinfo.instagram.data
+            navchange.twitter = updateinfo.twitter.data
+            navchange.description = updateinfo.description.data   
+
+            db.session.commit()
+            flash('your blog information been updated!' , category='success')
+        elif request.method == 'GET':
+            updateinfo.github.data = navchange.github
+            updateinfo.telegram.data = navchange.telegram
+            updateinfo.instagram.data = navchange.instagram
+            updateinfo.twitter.data = navchange.twitter
+            updateinfo.description.data = navchange.description    
+
     imagefile = url_for('static', filename =f"profile/{current_user.image_file}")
     return render_template('account.html',
     title = 'My Profile',
     profile = imagefile ,
-    form = form)
+    form = form ,
+    updateinfo = updateinfo ,
+    allowed_user = allowed_user,
+    nav = nav)
 
 @app.route('/post/new',methods=['GET','POST'])
 @login_required
@@ -150,7 +183,8 @@ def new_post():
         return redirect(url_for('home'))
     return render_template('create_post.html',
                             title='New Post',
-                            form=form)
+                            form=form,
+                            nav=nav)
 
 @app.route('/post/<int:post_id>')
 def post(post_id):
