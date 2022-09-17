@@ -79,6 +79,10 @@ body {
     font-size: 2.5rem;
   }
 
+html {
+    scroll-behavior: smooth;
+}
+
  .navbar-auth{
   width: 100%;
  }
@@ -90,11 +94,9 @@ body {
 }
 .navbar-info {
   color: #f2f2f2;
-  font-size: 20px;
-  overflow: hidden;
   position: fixed;
+  font-size: 20px;
   bottom: 0;
-  width: auto;
 }
 
 .navbar a {
@@ -105,6 +107,7 @@ body {
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
+  padding: 5;
 }
 
 /* Change the color of links on hover */
@@ -133,3 +136,11 @@ body {
   opacity: 0.5;
 
 }
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/* fix bottom nav padding */
+body { padding-bottom: 70px; }
