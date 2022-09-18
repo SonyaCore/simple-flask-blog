@@ -6,3 +6,5 @@ flask-sqlalchemy
 flask-bcrypt
 flask_login
 pillow
+flask-mail
+itsdangerous==2.0

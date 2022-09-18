@@ -1,7 +1,9 @@
+import os
 from flask import Flask , request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_mail import Mail
 from app.config import APIKEY , SQLDB
 from logging.config import dictConfig 
 
@@ -19,6 +21,20 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+
+# Mail
+
+app.config.update(
+MAIL_SERVER=os.environ.get('SMTP'),
+MAIL_PORT= 2525,
+MAIL_USE_TLS=True,
+MAIL_USERNAME=os.environ.get('EMAIL_USER'),
+MAIL_PASSWORD=os.environ.get('EMAIL_PASS')
+)
+
+print(app.config['MAIL_USERNAME'])
+print(app.config['MAIL_PASSWORD'])
+mail = Mail(app)
 
 # Logging Output
 
