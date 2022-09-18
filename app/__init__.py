@@ -37,4 +37,5 @@ dictConfig({
         'handlers': ['wsgi']
     }
 })
+
 from app import routes
