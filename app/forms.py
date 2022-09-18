@@ -55,7 +55,7 @@ class UpdateAccountForm(FlaskForm):
                             validators=[FileAllowed(['jpg','png','jpeg'])])
 
 
-    submit = SubmitField('Update')
+    submitupdate = SubmitField('Update')
 
     def validate_username(self,username):
         if username.data != current_user.username:
@@ -71,21 +71,16 @@ class UpdateAccountForm(FlaskForm):
 
 class ServerInfo(FlaskForm):
     github = StringField('GitHub',
-                            validators=[DataRequired(),
-                            Length(max=80)])
+                            validators=[DataRequired()])
     telegram = StringField('Telegram',
-                            validators=[DataRequired(),
-                            Length(max=80)])
+                            validators=[DataRequired()])
     instagram = StringField('Instagram',
-                            validators=[DataRequired(),
-                            Length(max=80)])
+                            validators=[DataRequired()])
     twitter = StringField('Twitter',
-                            validators=[DataRequired(),
-                            Length(max=80)])
+                            validators=[DataRequired()])
     description = StringField('Description',
-                            validators=[DataRequired(),
-                            Length(max=240)])
-    submit = SubmitField('Update Server Information')
+                            validators=[DataRequired()])
+    submitserver = SubmitField('Update Server Information')
 
 
 class PostForm(FlaskForm):

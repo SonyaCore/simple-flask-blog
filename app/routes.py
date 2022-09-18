@@ -33,6 +33,11 @@ def name():
      }
     return dict(info=info)
 
+@app.before_request
+def log_request_info():
+    app.logger.debug('Headers: %s\n', request.headers)
+    app.logger.debug('Body: %s\n', request.get_data())
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -124,8 +129,9 @@ def save_picture(form_picture):
 def account():
     form = UpdateAccountForm()
     updateinfo = ServerInfo()
-    navchange = db.session.query(NavBar).first()
-    if form.validate_on_submit():
+    navbar = db.session.query(NavBar).first()
+
+    if form.submitupdate.data and form.validate_on_submit():
         if form.picture.data:
             old_pic = current_user.image_file
             picture_file = save_picture(form.picture.data)
@@ -138,26 +144,29 @@ def account():
         db.session.commit()
         flash('your account has been updated!' , category='success')
         return redirect(url_for('account'))
+
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
 
     if current_user.username in allowed_user: # admin mode
-        if updateinfo.validate_on_submit():
-            navchange.github = updateinfo.github.data
-            navchange.telegram = updateinfo.telegram.data
-            navchange.instagram = updateinfo.instagram.data
-            navchange.twitter = updateinfo.twitter.data
-            navchange.description = updateinfo.description.data   
+        if updateinfo.submitserver.data and updateinfo.validate_on_submit():
+            navbar.github = updateinfo.github.data
+            navbar.telegram = updateinfo.telegram.data
+            navbar.instagram = updateinfo.instagram.data
+            navbar.twitter = updateinfo.twitter.data
+            navbar.description = updateinfo.description.data   
 
+            db.session.merge(navbar)
             db.session.commit()
             flash('your blog information been updated!' , category='success')
+            
         elif request.method == 'GET':
-            updateinfo.github.data = navchange.github
-            updateinfo.telegram.data = navchange.telegram
-            updateinfo.instagram.data = navchange.instagram
-            updateinfo.twitter.data = navchange.twitter
-            updateinfo.description.data = navchange.description    
+            updateinfo.github.data = navbar.github
+            updateinfo.telegram.data = navbar.telegram
+            updateinfo.instagram.data = navbar.instagram
+            updateinfo.twitter.data = navbar.twitter
+            updateinfo.description.data = navbar.description
 
     imagefile = url_for('static', filename =f"profile/{current_user.image_file}")
     return render_template('account.html',

@@ -22,7 +22,7 @@ class NavBar(db.Model):
     description = db.Column(db.String(80), unique=True, nullable=True,default=None)
 
     def __repr__(self):
-        return f"User('{self.github}','{self.telegram}','{self.instagram}','{self.twitter}','{self.description}')"
+        return f"NavBar('{self.github}','{self.telegram}','{self.instagram}','{self.twitter}','{self.description}')"
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer,primary_key=True)

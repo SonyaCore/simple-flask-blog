@@ -49,13 +49,13 @@
             {{ form.picture(class="form-control-file") }}
             {% if form.picture.errors %}
                 {% for error in form.picture.errors %}
-                    <span class="text-danger">{{ error }}</span></br>
+                    <span class="text-danger">{{ error }}</span>
                 {% endfor %}
             {% endif %}
         </div>
         </fieldset>
         <div class="form-group">
-            {{ form.submit(class="btn btn-outline-info") }}
+            {{ form.submitupdate(class="btn btn-outline-info" , method="post") }}
         </div>
         {% if current_user.username in allowed_user %}
         <fieldset class="form-group">
@@ -116,11 +116,11 @@
                 {{ updateinfo.description(class="form-control form-control-lg") }}
             {% endif %}
         </div>
+        <div class="form-group">
+            {{ updateinfo.submitserver(class="btn btn-outline-info" ,method="post") }}
+        </div>
         {% endif %}
         <br>
-        <div class="form-group">
-            {{ updateinfo.submit(class="btn btn-outline-info") }}
-        </div>
     </form>
     </div>
 {% endblock content %}
