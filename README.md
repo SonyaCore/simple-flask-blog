@@ -83,7 +83,7 @@ http://127.0.0.1:8080/
 - [x] User Authentication (brcypt method used)
 - [ ] A Better Post Edit Section with Markdown or JS
 - [ ] Code Refactoring & Cleaner Code
-- [ ] Blueprints
+- [x] Blueprints
 - [ ] Custom Error Pages
 - [ ] Cache Exeptions to Show Error Pages
 - [ ] Dockerfile
