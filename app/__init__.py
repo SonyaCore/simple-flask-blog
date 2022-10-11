@@ -39,6 +39,7 @@ from app.routes import servername , name
 from app.main.routes import main
 from app.posts.routes import posts
 from app.users.routes import users
+from app.errors.handlers import errors
 
 # Main Page
 app.register_blueprint(main)
@@ -48,6 +49,10 @@ app.register_blueprint(posts)
 
 # Users
 app.register_blueprint(users)
+
+# Error Pages
+
+app.register_blueprint(errors)
 
 ## Create APP Class (no use for now)
 
