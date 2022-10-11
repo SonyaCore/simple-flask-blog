@@ -1,17 +1,7 @@
 from flask import render_template , request , Blueprint
 from app.models import Post
-from app.main.utils import servername , nav
+from app.main.utils import  nav
 main = Blueprint('main',__name__)
-
-blogname = Blueprint('blogname',__name__)
-
-@blogname.context_processor
-def name():
-    info = {
-         'servername':   f'{servername()}'
-     }
-    return dict(info=info)
-
 
 @main.route('/')
 @main.route('/home')
