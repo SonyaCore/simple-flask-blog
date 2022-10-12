@@ -3,7 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+
 from app.config import Config
+
 from logging.config import dictConfig 
 
 # App Config
@@ -51,7 +53,6 @@ app.register_blueprint(posts)
 app.register_blueprint(users)
 
 # Error Pages
-
 app.register_blueprint(errors)
 
 ## Create APP Class (no use for now)
