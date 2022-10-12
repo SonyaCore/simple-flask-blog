@@ -84,6 +84,6 @@ http://127.0.0.1:8080/
 - [ ] A Better Post Edit Section with Markdown or JS
 - [ ] Code Refactoring & Cleaner Code
 - [x] Blueprints
-- [ ] Custom Error Pages
-- [ ] Cache Exeptions to Show Error Pages
+- [x] Custom Error Pages
+- [x] Cache Exeptions to Show Error Pages
 - [ ] Dockerfile
