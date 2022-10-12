@@ -1,5 +1,6 @@
 from flask import render_template , request , Blueprint
 
+from app.config import USER_REGISTER
 from app.models import Post
 from app.main.utils import  nav
 
@@ -13,7 +14,7 @@ def home():
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page = page , per_page = 5)
 
     return render_template('home.html',
-    posts=posts , nav=nav)
+    posts=posts , nav=nav , USER_REGISTER=USER_REGISTER)
 
 @main.route('/about')
 def about():

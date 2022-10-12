@@ -2,6 +2,7 @@ import os
 
 from flask import render_template , url_for, flash , redirect , request , abort , Blueprint
 from app import app , db , bcrypt , mail
+from app.config import USER_REGISTER
 
 from app.main.utils import NavBar , nav
 from app.posts.forms import ServerInfo
@@ -13,49 +14,50 @@ from flask_login import current_user , login_required , logout_user , login_user
 
 users = Blueprint('users',__name__)
 
-## Registering Users
-@users.route('/register', methods=['GET','POST'])
-def register():
-    if current_user.is_authenticated:
-            return redirect(url_for('main.home'))
-    form = RegistrationForm()
+if USER_REGISTER:
+    ## Registering Users
+    @users.route('/register', methods=['GET','POST'])
+    def register():
+        if current_user.is_authenticated:
+                return redirect(url_for('main.home'))
+        form = RegistrationForm()
 
-    if form.validate_on_submit():
-        # Username Check
-        if username_regex(form.username.data):
-            pass
-        else:
-            flash("Illegal characters in username.",category='warning')
-            return render_template('register.html',
-            form = form)
+        if form.validate_on_submit():
+            # Username Check
+            if username_regex(form.username.data):
+                pass
+            else:
+                flash("Illegal characters in username.",category='warning')
+                return render_template('register.html',
+                form = form)
 
-        # Password Check
-        if password_regex(form.password.data):
-            pass
-        else:
-            flash("Password must be 6+ chars and have 1 lowercase letter, 1 uppercase letter and 1 digit.",category='warning')
-            return render_template('register.html',
-            form = form)
+            # Password Check
+            if password_regex(form.password.data):
+                pass
+            else:
+                flash("Password must be 6+ chars and have 1 lowercase letter, 1 uppercase letter and 1 digit.",category='warning')
+                return render_template('register.html',
+                form = form)
 
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8') # Hash password
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8') # Hash password
 
-        # Add User
-        user = User(username=form.username.data,
-        email=form.email.data,
-        password=hashed_password)
+            # Add User
+            user = User(username=form.username.data,
+            email=form.email.data,
+            password=hashed_password)
 
-        # Commit to DB
-        db.session.add(user)
-        db.session.commit()
+            # Commit to DB
+            db.session.add(user)
+            db.session.commit()
 
-        flash(f'{form.username.data} has been created !',
-        category='success')
+            flash(f'{form.username.data} has been created !',
+            category='success')
 
-        return redirect(url_for('users.login'))
-    return render_template('register.html',
-    title='Register',
-    form = form,
-    nav=nav)
+            return redirect(url_for('users.login'))
+        return render_template('register.html',
+        title='Register',
+        form = form,
+        nav=nav)
 
 @users.route('/login',methods=['GET','POST'])
 def login():

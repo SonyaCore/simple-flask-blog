@@ -50,7 +50,9 @@
     </div>
     <div class="border-top-pt-3">
         <small class="text-muted">
+            {% if USER_REGISTER %}
             don't have an account ? <a class="ml-2" href="{{ url_for('users.register') }}">Sign Up Now</a>
+            {% endif %}
         </small>
     </div>
     {% endblock content %}

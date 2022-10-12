@@ -37,8 +37,10 @@
                 <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
                 <a class="nav-item nav-link" href="{{ url_for('posts.new_post') }}">New Post</a>
               {% else %}
+                {% if USER_REGISTER %}
                 <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
                 <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
+                {% endif %}
               {% endif %}
               </div>
             </div>
@@ -63,7 +65,7 @@
 
       <main role="main" class="container">
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-16">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -76,6 +78,7 @@
             {% block content %}{% endblock %}
           </div>
           <div class="col-md-4">
+          <!--
             <div class="content-section">
               <h3>Sidebar</h3>
               <p class='text-muted'>You can put any information here you'd like.
@@ -86,6 +89,7 @@
                 </ul>
               </p>
             </div>
+            -->
           </div>
         </div>
       </main>

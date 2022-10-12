@@ -17,3 +17,6 @@ class Config:
 VALID_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._'
 PASSWORD_REGEX = re.compile(r'\A(?=\S*?\d)(?=\S*?[A-Z])(?=\S*?[a-z])\S{6,}\Z')
 USERNAME_REGEX = re.compile(r'\A[\w\-\.]{3,}\Z')
+
+# Constant Registeration
+USER_REGISTER = True
