@@ -1,22 +1,42 @@
-from flask import render_template , url_for, flash , redirect , request , abort , Blueprint
-from app import app , db , bcrypt , mail
-from app.users.forms import RegistrationForm , LoginForm , UpdateAccountForm , User , ResetPasswordForm , RequestResetForm
-from app.users.utils import allowed_user , save_picture , send_reset_email
-from app.main.utils import NavBar , nav
-from app.posts.forms import ServerInfo
-from app.models import Post
-from flask_login import current_user , login_required , logout_user , login_user
 import os
 
+from flask import render_template , url_for, flash , redirect , request , abort , Blueprint
+from app import app , db , bcrypt , mail
+
+from app.main.utils import NavBar , nav
+from app.posts.forms import ServerInfo
+
+from app.users.forms import RegistrationForm , LoginForm , UpdateAccountForm , User , ResetPasswordForm , RequestResetForm
+from app.users.utils import allowed_user , save_picture , send_reset_email , username_regex , password_regex
+from app.models import Post
+from flask_login import current_user , login_required , logout_user , login_user
 
 users = Blueprint('users',__name__)
 
+## Registering Users
 @users.route('/register', methods=['GET','POST'])
 def register():
     if current_user.is_authenticated:
             return redirect(url_for('main.home'))
     form = RegistrationForm()
+
     if form.validate_on_submit():
+        # Username Check
+        if username_regex(form.username.data):
+            pass
+        else:
+            flash("Illegal characters in username.",category='warning')
+            return render_template('register.html',
+            form = form)
+
+        # Password Check
+        if password_regex(form.password.data):
+            pass
+        else:
+            flash("Password must be 6+ chars and have 1 lowercase letter, 1 uppercase letter and 1 digit.",category='warning')
+            return render_template('register.html',
+            form = form)
+
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8') # Hash password
 
         # Add User

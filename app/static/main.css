@@ -88,16 +88,16 @@ html {
  }
  
  .navbar-down {
-  overflow: hidden;
+  overflow: fixed;
   bottom: 0;
   width: 100%;
 }
 .navbar-info {
   color: #f2f2f2;
   position: fixed;
-  font-size: 20px;
+  font-size: 12px;
   bottom: 0;
-  width: 70%;
+  width: 50%;
 }
 
 .navbar a {

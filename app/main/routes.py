@@ -1,6 +1,8 @@
 from flask import render_template , request , Blueprint
+
 from app.models import Post
 from app.main.utils import  nav
+
 main = Blueprint('main',__name__)
 
 @main.route('/')

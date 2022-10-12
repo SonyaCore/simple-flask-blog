@@ -1,15 +1,24 @@
-from flask import current_app
-from flask_mail import Message 
-from PIL import Image
 import secrets
 import os
-from app.users.forms import UpdateAccountForm
+from PIL import Image
+
+from flask import current_app
+from flask_mail import Message 
+
 from app.users.routes import url_for , mail
+from app.config import PASSWORD_REGEX , USERNAME_REGEX
+
+def password_regex(password):
+    return PASSWORD_REGEX.match(password) is not None
+
+def username_regex(username):
+    return USERNAME_REGEX.match(username) is not None
 
 def save_picture(form_picture):
     # Generate Hex Token for Profile Picture
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
+    from app.users.forms import UpdateAccountForm
     picture_fn = UpdateAccountForm().username.data + '_' + random_hex + f_ext
 
     # Join Picture

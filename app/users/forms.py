@@ -1,10 +1,11 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField , FileAllowed
 from flask_login import current_user
+
 from wtforms import StringField , PasswordField , SubmitField , BooleanField
 from wtforms.validators import DataRequired,Length , Email , EqualTo , ValidationError
-from app.models import User
 
+from app.models import User
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
@@ -14,7 +15,8 @@ class RegistrationForm(FlaskForm):
                             validators=[DataRequired(),
                             Email()])
     password = PasswordField('Password',
-                            validators=[DataRequired()])
+                            validators=[DataRequired(),
+                            Length(min=5,max=64)])
     confirm_password = PasswordField('Confirm Password',
                             validators=[DataRequired(),
                             EqualTo('password')])
@@ -30,6 +32,7 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('The email already exist!')
+
 
 class LoginForm(FlaskForm):
     email = StringField('Email',
