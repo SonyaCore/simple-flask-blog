@@ -1,8 +1,8 @@
 from flask import current_app
 from datetime import datetime
-from app import db , login_manager  
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from app import db , login_manager
 
 @login_manager.user_loader
 def get_user(user_id):
@@ -59,3 +59,5 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
+
+db.create_all()

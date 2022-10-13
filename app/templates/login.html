@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
     {% block content %}
-    <div class="content-section">
+    <div class="content-section center-form">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
@@ -51,7 +51,7 @@
     <div class="border-top-pt-3">
         <small class="text-muted">
             {% if USER_REGISTER %}
-            don't have an account ? <a class="ml-2" href="{{ url_for('users.register') }}">Sign Up Now</a>
+            Don't have an account ? <a class="ml-2" href="{{ url_for('users.register') }}">Sign Up Now</a>
             {% endif %}
         </small>
     </div>

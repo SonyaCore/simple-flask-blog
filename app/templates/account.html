@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="content-section">
+<div class="content-section left-account-form">
     <div class="media">
       <img class="rounded-circle account-img" src="{{ profile }}">
       <div class="media-body">
         <h2 class="account-heading">{{ current_user.username }}</h2>
         <p class="text-secondary">{{ current_user.email }}</p>
-        {% if current_user.username in allowed_user %}
+        {% if current_user.username in ADMINMODE %}
             <p class="text-secondary text-info">Admin</p>
         {% endif %}
       </div>
@@ -57,7 +57,11 @@
         <div class="form-group">
             {{ form.submitupdate(class="btn btn-outline-info" , method="post") }}
         </div>
-        {% if current_user.username in allowed_user %}
+        </form>
+        </div>
+
+        {% if current_user.username in ADMINMODE %}
+        <div class="content-section  right-account-form ">
         <fieldset class="form-group">
         <legend class="border-primary mb-2">Server Information</legend>
         <div class="form-group">
@@ -71,7 +75,7 @@
                     {% endfor %}
                 </div>
             {% else %}
-                {{ updateinfo.github(class="form-control form-control-lg") }}
+                {{ updateinfo.github(class="form-control form-control-lg" ) }}
             {% endif %}
         </div>
 
@@ -116,9 +120,12 @@
                 {{ updateinfo.description(class="form-control form-control-lg") }}
             {% endif %}
         </div>
+
         <div class="form-group">
             {{ updateinfo.submitserver(class="btn btn-outline-info" ,method="post") }}
         </div>
+        
+    </div>
         {% endif %}
         <br>
     </form>
