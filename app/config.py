@@ -20,3 +20,4 @@ USERNAME_REGEX = re.compile(r'\A[\w\-\.]{3,}\Z')
 
 # Constant Registeration
 USER_REGISTER = True
+ADMINMODE = ['admin']

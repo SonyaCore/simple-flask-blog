@@ -2,13 +2,12 @@ import os
 
 from flask import render_template , url_for, flash , redirect , request , abort , Blueprint
 from app import app , db , bcrypt , mail
-from app.config import USER_REGISTER
+from app.config import USER_REGISTER , ADMINMODE
 
 from app.main.utils import NavBar , nav
-from app.posts.forms import ServerInfo
 
-from app.users.forms import RegistrationForm , LoginForm , UpdateAccountForm , User , ResetPasswordForm , RequestResetForm
-from app.users.utils import allowed_user , save_picture , send_reset_email , username_regex , password_regex
+from app.users.forms import RegistrationForm , LoginForm , UpdateAccountForm , User , ResetPasswordForm , RequestResetForm , ServerInfo
+from app.users.utils import save_picture , send_reset_email , username_regex , password_regex
 from app.models import Post
 from flask_login import current_user , login_required , logout_user , login_user
 
@@ -103,7 +102,7 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
 
-    if current_user.username in allowed_user: # admin mode
+    if current_user.username in ADMINMODE: # admin mode
         if updateinfo.submitserver.data and updateinfo.validate_on_submit():
             navbar.github = updateinfo.github.data
             navbar.telegram = updateinfo.telegram.data
@@ -111,7 +110,6 @@ def account():
             navbar.twitter = updateinfo.twitter.data
             navbar.description = updateinfo.description.data   
 
-            db.session.merge(navbar)
             db.session.commit()
             flash('your blog information been updated!' , category='success')
             
@@ -128,7 +126,7 @@ def account():
     profile = imagefile ,
     form = form ,
     updateinfo = updateinfo ,
-    allowed_user = allowed_user,
+    ADMINMODE = ADMINMODE,
     nav = nav)
 
 @users.route("/user/<string:username>")
@@ -140,7 +138,7 @@ def user_posts(username):
         .paginate(page = page , per_page = 5)
 
     return render_template('user_posts.html',
-    posts=posts , user=user)
+    posts=posts , user=user , nav=nav)
 
 @users.route('/reset_password',methods=['GET','POST'])
 def reset_request():
