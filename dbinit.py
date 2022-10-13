@@ -20,6 +20,9 @@ engine = create_engine(
 )
 
 class Config:
+    '''
+    Initial information for Servername & Navbar links
+    '''
     SERVERNAME = 'Simple Blog'
     GITHUB = '#'
     TELEGRAM = '#'
@@ -28,6 +31,9 @@ class Config:
     DESCRIPTION = ''
 
 class Admin:
+    '''
+    Initial admin user .
+    '''
     USERNAME = 'admin'
     EMAIL = 'admin@gmail.com'
     PASSWORD = 'admin'
@@ -37,8 +43,6 @@ server = ServerName()
 server.servername = Config.SERVERNAME
 db.session.add(server)
 db.session.commit()
-
-print(server.servername)
 
 # NavBar Information
 navbar = NavBar()
@@ -50,9 +54,6 @@ navbar.description = Config.DESCRIPTION
 db.session.add(navbar)
 db.session.commit()
 
-for query in db.session.query(NavBar).all(): 
-    print(str(f"{query.github}\n{query.telegram}\n{query.instagram}\n{query.twitter}\n{query.description}"))
-
 # Admin Creation
 admin = User()
 PASSWORD = bcrypt.generate_password_hash(Admin.PASSWORD).decode('utf-8')
@@ -61,6 +62,13 @@ admin.email = Admin.EMAIL
 admin.password = PASSWORD
 db.session.add(admin)
 db.session.commit()
+
+
+# Print Total
+print(server.servername)
+
+for query in db.session.query(NavBar).all(): 
+    print(str(f"{query.github}\n{query.telegram}\n{query.instagram}\n{query.twitter}\n{query.description}"))
 
 print('Admin Information:')
 print('Email :', Admin.EMAIL)
