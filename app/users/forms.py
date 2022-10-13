@@ -3,7 +3,7 @@ from flask_wtf.file import FileField , FileAllowed
 from flask_login import current_user
 
 from wtforms import StringField , PasswordField , SubmitField , BooleanField
-from wtforms.validators import DataRequired,Length , Email , EqualTo , ValidationError
+from wtforms.validators import DataRequired,Length , Email , EqualTo , ValidationError , InputRequired
 
 from app.models import User
 
@@ -73,15 +73,15 @@ class UpdateAccountForm(FlaskForm):
 
 class ServerInfo(FlaskForm):
     github = StringField('GitHub',
-                            validators=[DataRequired()])
+                            validators=[InputRequired(), Length(min=0, max=30)])
     telegram = StringField('Telegram',
-                            validators=[DataRequired()])
+                            validators=[InputRequired(), Length(min=0, max=30)])
     instagram = StringField('Instagram',
-                            validators=[DataRequired()])
+                            validators=[InputRequired(), Length(min=0, max=30)])
     twitter = StringField('Twitter',
-                            validators=[DataRequired()])
+                            validators=[InputRequired(), Length(min=0, max=30)])
     description = StringField('Description',
-                            validators=[DataRequired()])
+                            validators=[InputRequired(), Length(min=0, max=30)])
                             
     submitserver = SubmitField('Update Server Information')
 

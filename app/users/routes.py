@@ -68,7 +68,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password , form.password.data):
             login_user(user,remember=form.remember.data)
             flash('You Have been logged in!', category='success')
-            next_page = request.args.get('next')
+            next_page = request.args.get('next')    
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
             flash('Login Failed Check your information!', category='danger')
@@ -81,7 +81,7 @@ def login():
 @login_required
 def account():
     form = UpdateAccountForm()
-    updateinfo = ServerInfo()
+    navinfo = ServerInfo()
     navbar = db.session.query(NavBar).first()
 
     if form.submitupdate.data and form.validate_on_submit():
@@ -102,30 +102,31 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
 
-    if current_user.username in ADMINMODE: # admin mode
-        if updateinfo.submitserver.data and updateinfo.validate_on_submit():
-            navbar.github = updateinfo.github.data
-            navbar.telegram = updateinfo.telegram.data
-            navbar.instagram = updateinfo.instagram.data
-            navbar.twitter = updateinfo.twitter.data
-            navbar.description = updateinfo.description.data   
-
+    if current_user.username in ADMINMODE: # admin mode    
+        if navinfo.submitserver.data and navinfo.validate_on_submit():
+            navbar.github = navinfo.github.data
+            navbar.telegram = navinfo.telegram.data
+            navbar.instagram = navinfo.instagram.data
+            navbar.twitter = navinfo.twitter.data
+            navbar.description = navinfo.description.data
+            
             db.session.commit()
             flash('your blog information been updated!' , category='success')
+            return redirect(url_for('users.account'))
             
         elif request.method == 'GET':
-            updateinfo.github.data = navbar.github
-            updateinfo.telegram.data = navbar.telegram
-            updateinfo.instagram.data = navbar.instagram
-            updateinfo.twitter.data = navbar.twitter
-            updateinfo.description.data = navbar.description
+            navinfo.github.data = navbar.github
+            navinfo.telegram.data = navbar.telegram
+            navinfo.instagram.data = navbar.instagram
+            navinfo.twitter.data = navbar.twitter
+            navinfo.description.data = navbar.description
 
     imagefile = url_for('static', filename =f"profile/{current_user.image_file}")
     return render_template('account.html',
     title = 'My Profile',
     profile = imagefile ,
     form = form ,
-    updateinfo = updateinfo ,
+    updateinfo = navinfo ,
     ADMINMODE = ADMINMODE,
     nav = nav)
 
