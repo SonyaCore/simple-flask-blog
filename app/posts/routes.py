@@ -7,7 +7,6 @@ from app.posts.forms import PostForm
 from app.main.utils import servername , nav
 
 posts = Blueprint('posts',__name__)
-
 @posts.route('/post/new',methods=['GET','POST'])
 @login_required
 def new_post():
@@ -31,7 +30,7 @@ def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html',
                             title = post.title ,
-                            post = post , legend = 'New Post' )
+                            post = post , legend = 'New Post' , nav = nav )
 
 @posts.route('/post/<int:post_id>/update',methods=['GET','POST'])
 @login_required
@@ -51,7 +50,7 @@ def update_post(post_id):
         form.content.data = post.content
     return render_template('create_post.html',
                             title='Update Post',
-                            form=form , legend = 'Update Post')
+                            form=form , legend = 'Update Post' , nav = nav)
 
 @posts.route('/post/<int:post_id>/delete',methods=['POST'])
 @login_required

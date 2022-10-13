@@ -47,7 +47,3 @@ def send_reset_email(user):
 If you did not make this request then ignore this message
     '''
     mail.send(msg)
-
-global allowed_user
-allowed_user = ['Sonya','admin']
-

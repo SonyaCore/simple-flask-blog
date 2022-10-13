@@ -52,7 +52,7 @@ class UpdateAccountForm(FlaskForm):
                             validators=[DataRequired(),
                             Email()])
 
-    picture = FileField('Update Porfile Picture',
+    picture = FileField('Update Profile Picture',
                             validators=[FileAllowed(['jpg','png','jpeg'])])
 
 
@@ -69,6 +69,22 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('The email already exist!')
+
+
+class ServerInfo(FlaskForm):
+    github = StringField('GitHub',
+                            validators=[DataRequired()])
+    telegram = StringField('Telegram',
+                            validators=[DataRequired()])
+    instagram = StringField('Instagram',
+                            validators=[DataRequired()])
+    twitter = StringField('Twitter',
+                            validators=[DataRequired()])
+    description = StringField('Description',
+                            validators=[DataRequired()])
+                            
+    submitserver = SubmitField('Update Server Information')
+
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email',
