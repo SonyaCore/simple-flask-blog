@@ -82,8 +82,8 @@ http://127.0.0.1:8080/
 - [x] User Account , Profile Picture
 - [x] User Authentication (brcypt method used)
 - [ ] A Better Post Edit Section with Markdown or JS
-- [ ] Code Refactoring & Cleaner Code
+- [x] Code Refactoring & Cleaner Code
 - [x] Blueprints
 - [x] Custom Error Pages
 - [x] Cache Exeptions to Show Error Pages
-- [ ] Dockerfile
+- [x] Dockerfile
